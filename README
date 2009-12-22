@@ -1,0 +1,32 @@
+** Name **
+Coah-cocoa or Cocoah
+** WTF is this **
+Porting of Coah(http://9.dotpp.net/), the Toho Sosowa(http://www5d.biglobe.ne.jp/~coolier2/SS_kai.html) browser.
+As original Coah is written in C# and seems like only works on Windows(maybe..), 
+this project is motivated to let it or same things work on MacOSX.
+
+** これはなに **
+Coah(http://9.dotpp.net/), 東方創想話のブラウザのようなものを目指したソフトウェアです.
+オリジナルのCoahはC#で書かれており(たぶん)Windowsでしか動かないので, Mac版でも
+同じようなソフトが欲しい！ということで創っています.
+
+
+** usage **
+These are executable script: 
+	coah_get_current_list.rb
+		show pages list
+	coah_get_ss.rb <page_number>
+		show ss list in the specified page identified with page_number
+	coah_get_sslist.rb <page_number> <ss_id>
+		show ss text identified by <ss_id>, which is linked from page with <page_number>
+
+** vim plugin **
+type ":source coah.vim" on this directory, then you can use commands as below
+	:CoahLoadList
+		Download and parse index page to list of ss pages, and number to identify them
+	:CoahLoadPage <page_number>
+		parse page specified with <page_number> and show list of ss belongs to it, and id for them
+	:CoahLoadSS <page_number> <ss_id>
+		show ss text on buffer, which was specified by <page_number> and <ss_id>
+
+These commands uses scripts above to find list, pages, ss.
