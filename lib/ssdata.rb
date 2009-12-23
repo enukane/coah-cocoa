@@ -40,7 +40,7 @@ class SSData
 	end
 
 	def get_content_text
-		return @content.gsub(/<br.*>/, "\n")
+		return @content.gsub(/<br.*?>/, "\n")
 	end
 
 	
