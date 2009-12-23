@@ -3,7 +3,9 @@ require 'nokogiri'
 require 'open-uri'
 require 'lib/page_info'
 require 'lib/encconverter'
+require 'lib/threadpool'
 
+$DMSG =false 
 
 class Sosowa
 	attr_reader :page_list
@@ -21,8 +23,8 @@ class Sosowa
 		@page_list = Array.new
 		
 		page_url_list = get_url_list 
-
-		#thread?
+=begin
+		#not Thread
 		page_url_list.each do |url|
 			info = PageInfo.new(url,@base_url )
 			if rec then
@@ -30,7 +32,23 @@ class Sosowa
 			end
 			@page_list << info
 		end
-
+=end
+#=begin
+		#Threaded
+		pool = ThreadPool.new(4, page_url_list.size)
+		0.upto(page_url_list.size-1) do |i|
+			pool.dispatch(i,page_url_list) do |i, url|
+				p "page #{i} in process" if $DMSG
+				info = PageInfo.new(url, @base_url)
+				if rec then
+					info.load
+				end
+				@page_list[i] = info
+				p "page #{i} done" if $DMSG
+			end
+		end
+		pool.join
+#=end
 		return @page_list
 	end
 
