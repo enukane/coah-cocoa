@@ -31,7 +31,7 @@ class PageInfo
 		info_list = parse_page(doc_html)
 
 		info_list.each do |info|
-			ssdata << SSData.new(@url, info)	
+			@ssdata << SSData.new(@url, info)	
 		end
 
 	rescue => e#when it fails to access server

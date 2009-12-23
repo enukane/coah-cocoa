@@ -1,7 +1,5 @@
 require 'thread'
 
-
-
 class ThreadPool
 	def initialize(max_size, max_job=nil)
     @th_group = ThreadGroup.new
