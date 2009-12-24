@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
-require 'lib/encconverter'
+require 'lib/encconverter' if RUBY_VERSION >= '1.9'
+require 'lib/encconverter18' if RUBY_VERSION < '1.9'
 
 class SSData
 	attr_accessor :link, :title, :author, :post_date, :update, :value, :point, :rate, :id
@@ -32,7 +33,7 @@ class SSData
 		raw_html = open(@link).read
 		utf8_html = EncConverter::convert_to_utf8(raw_html)
 		html = Nokogiri(utf8_html)
-		@content = html.search('div')[1].inner_html
+		@content = html.search('div')[1].inner_html(:encoding=>'UTF-8')
 	end
 
 	def get_content
@@ -40,7 +41,7 @@ class SSData
 	end
 
 	def get_content_text
-		return @content.gsub(/<br.*?>/, "\n")
+		return @content.gsub(/<br.*?>/, "\n") + "\n"
 	end
 
 	

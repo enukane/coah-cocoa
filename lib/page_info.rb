@@ -3,7 +3,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'lib/ssdata'
 require 'lib/sosowa'
-require 'lib/encconverter'
+require 'lib/encconverter' if RUBY_VERSION >= '1.9'
+require 'lib/encconverter18' if RUBY_VERSION < '1.9'
 
 class PageInfo
 	attr_reader :ssdata

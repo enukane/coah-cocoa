@@ -2,7 +2,8 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'lib/page_info'
-require 'lib/encconverter'
+require 'lib/encconverter' if RUBY_VERSION >= '1.9'
+require 'lib/encconverter18' if RUBY_VERSION < '1.9'
 require 'lib/threadpool'
 
 $DMSG =false 
