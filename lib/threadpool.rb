@@ -1,48 +1,48 @@
 require 'thread'
 
 class ThreadPool
-	def initialize(max_size, max_job=nil)
+  def initialize(max_size, max_job=nil)
     @th_group = ThreadGroup.new
-		@pool = []
-		@max_size = max_size
-		@pool_mutex = Mutex.new
-		@pool_cv = ConditionVariable.new
+    @pool = []
+    @max_size = max_size
+    @pool_mutex = Mutex.new
+    @pool_cv = ConditionVariable.new
     @max_job =  max_job
     @job_count = 0
-	end
+  end
 
-	def dispatch(num, list)
+  def dispatch(num, list)
 
-		Thread.new do
-			@pool_mutex.synchronize do
-				while @pool.size >= @max_size
-					p "Pool is full: page #{num} waits\n" if $DMSG
-					@pool_cv.wait(@pool_mutex)
-				end
-			end
-    
+    Thread.new do
+      @pool_mutex.synchronize do
+        while @pool.size >= @max_size
+          p "Pool is full: page #{num} waits\n" if $DMSG
+          @pool_cv.wait(@pool_mutex)
+        end
+      end
+
       @pool << Thread.current
       @job_count+=1
       p "#{@pool.size}" if $DMSG
 
-			begin
-			      	yield(num, list[num])
-			rescue => e
-				exception(self, e, list[num])
-			ensure
-				@pool_mutex.synchronize do
-					@pool.delete(Thread.current)
-					@pool_cv.signal
-				end
-			end
-		end
-	end
+      begin
+        yield(num, list[num])
+      rescue => e
+        exception(self, e, list[num])
+      ensure
+        @pool_mutex.synchronize do
+          @pool.delete(Thread.current)
+          @pool_cv.signal
+        end
+      end
+    end
+  end
 
-	def shutdown 
-		@pool_mutex.synchronize do
-			@pool_cv.wait(@pool_mutex) until @pool.empty?
-		end
-	end
+  def shutdown 
+    @pool_mutex.synchronize do
+      @pool_cv.wait(@pool_mutex) until @pool.empty?
+    end
+  end
 
   def join
     while !@pool.empty? || is_jobs? do
@@ -64,7 +64,7 @@ class ThreadPool
     return false
   end
 
-	def exception(thread, exception, *original_args)
-		puts "Exception in thread #{thread} : #{exception}"
-	end
+  def exception(thread, exception, *original_args)
+    puts "Exception in thread #{thread} : #{exception}"
+  end
 end

@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+EncConverter	lib/encconverter.rb	/^class EncConverter$/;"	c
+EncConverter	lib/encconverter18.rb	/^class EncConverter$/;"	c
+PageInfo	lib/page_info.rb	/^class PageInfo$/;"	c
+SSData	lib/ssdata.rb	/^class SSData$/;"	c
+Sosowa	lib/sosowa.rb	/^class Sosowa$/;"	c
+ThreadPool	lib/threadpool.rb	/^class ThreadPool$/;"	c
+convert_to_utf8	lib/encconverter.rb	/^	def self.convert_to_utf8 str$/;"	F	class:EncConverter
+convert_to_utf8	lib/encconverter18.rb	/^	def self.convert_to_utf8 str$/;"	F	class:EncConverter
+dispatch	lib/threadpool.rb	/^	def dispatch(num, list)$/;"	f	class:ThreadPool
+divide_table_to_list	lib/page_info.rb	/^	def divide_table_to_list(table)$/;"	f	class:PageInfo
+exception	lib/threadpool.rb	/^	def exception(thread, exception, *original_args)$/;"	f	class:ThreadPool.join
+get_content	lib/ssdata.rb	/^	def get_content$/;"	f	class:SSData
+get_content_text	lib/ssdata.rb	/^	def get_content_text$/;"	f	class:SSData
+get_page_list	lib/sosowa.rb	/^	def get_page_list num=nil$/;"	f	class:Sosowa.load
+get_url_list	lib/sosowa.rb	/^	def get_url_list$/;"	f	class:Sosowa.load
+initialize	lib/page_info.rb	/^	def initialize url, base_url$/;"	f	class:PageInfo
+initialize	lib/sosowa.rb	/^	def initialize base_url=nil$/;"	f	class:Sosowa
+initialize	lib/ssdata.rb	/^	def initialize page_url, list=nil$/;"	f	class:SSData
+initialize	lib/threadpool.rb	/^	def initialize(max_size, max_job=nil)$/;"	f	class:ThreadPool
+is_jobs?	lib/threadpool.rb	/^  def is_jobs?$/;"	f	class:ThreadPool.join
+join	lib/threadpool.rb	/^  def join$/;"	f	class:ThreadPool
+load	lib/page_info.rb	/^	def load doc=nil$/;"	f	class:PageInfo
+load	lib/sosowa.rb	/^	def load rec=false$/;"	f	class:Sosowa
+parse_page	lib/page_info.rb	/^	def parse_page page_doc$/;"	f	class:PageInfo
+set_content	lib/ssdata.rb	/^	def set_content content$/;"	f	class:SSData
+set_content_from_web	lib/ssdata.rb	/^	def set_content_from_web$/;"	f	class:SSData
+shutdown	lib/threadpool.rb	/^	def shutdown $/;"	f	class:ThreadPool

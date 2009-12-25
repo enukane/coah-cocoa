@@ -7,88 +7,90 @@ require 'lib/encconverter' if RUBY_VERSION >= '1.9'
 require 'lib/encconverter18' if RUBY_VERSION < '1.9'
 
 class PageInfo
-	attr_reader :ssdata
+  attr_reader :ssdata, :page_num
 
-	@url = nil
-	@ssdata = nil
-	@base_url = nil
+  @url = nil
+  @ssdata = nil
+  @base_url = nil
+  @page_num = nil
 
-	def initialize url, base_url
-		@url = url
-		@base_url = base_url
-	end
+  def initialize page_num,url, base_url
+    @page_num = page_num
+    @url = url
+    @base_url = base_url
+  end
 
-	def load doc=nil
-		@ssdata = Array.new
-		
-		doc_html = doc
+  def load doc=nil
+    @ssdata = Array.new
 
-		unless doc_html then
-			raw_content = open(@url).read
-			utf8_content = EncConverter::convert_to_utf8(raw_content)
-			doc_html = Nokogiri(utf8_content)
-		end
+    doc_html = doc
 
-		info_list = parse_page(doc_html)
+    unless doc_html then
+      raw_content = open(@url).read
+      utf8_content = EncConverter::convert_to_utf8(raw_content)
+      doc_html = Nokogiri(utf8_content)
+    end
 
-		info_list.each do |info|
-			@ssdata << SSData.new(@url, info)	
-		end
+    info_list = parse_page(doc_html)
 
-	rescue => e#when it fails to access server
-		p e
-	end
+    info_list.each do |info|
+      @ssdata << SSData.new(@url, info)	
+    end
 
-	def parse_page page_doc
+  rescue => e#when it fails to access server
+    p e
+  end
 
-		info_list = []
+  def parse_page page_doc
 
-		div_contents = page_doc.search("div.contents")[0]
+    info_list = []
 
-		table_subjects = div_contents.search("table.subjects")[0]
-		tables = table_subjects.search("tr")
+    div_contents = page_doc.search("div.contents")[0]
 
-		#thread?
-		tables.each do |table|
-			list = divide_table_to_list(table)
+    table_subjects = div_contents.search("table.subjects")[0]
+    tables = table_subjects.search("tr")
 
-			if list then
-				info_list << list
-			end
-		end
+    #thread?
+    tables.each do |table|
+      list = divide_table_to_list(table)
 
-		return info_list
-	end
+      if list then
+        info_list << list
+      end
+    end
 
-	def divide_table_to_list(table)
-		data = []
-		list = table.children.search("td")
+    return info_list
+  end
 
-		# when table's header
-		if list.empty? then
-			return nil
-		end
+  def divide_table_to_list(table)
+    data = []
+    list = table.children.search("td")
 
-		# when tag table entry
-		if list[0]["class"] == "tags" then
-			return nil
-		end
+    # when table's header
+    if list.empty? then
+      return nil
+    end
 
-		ahref = list.search("a")[0]
+    # when tag table entry
+    if list[0]["class"] == "tags" then
+      return nil
+    end
 
-		link = @base_url + ahref["href"]
-		title = ahref.inner_text.strip
-		author = list[1].inner_text.strip
-		post_date = list[2].inner_text.strip
-		update = list[3].inner_text.strip
-		value = list[4].inner_text.strip
-		points = list[5].inner_text.strip
-		rate = list[6].inner_text.strip
+    ahref = list.search("a")[0]
 
-		data << link << title << author << post_date << update << value << points << rate
+    link = @base_url + ahref["href"]
+    title = ahref.inner_text.strip
+    author = list[1].inner_text.strip
+    post_date = list[2].inner_text.strip
+    update = list[3].inner_text.strip
+    value = list[4].inner_text.strip
+    points = list[5].inner_text.strip
+    rate = list[6].inner_text.strip
 
-		return data
-	end
+    data << link << title << author << post_date << update << value << points << rate
 
-	alias reload load
+    return data
+  end
+
+  alias reload load
 end
