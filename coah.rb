@@ -21,16 +21,18 @@ end
 def init_page()
   init()
 
-  puts "ERRRO: no page specified" unless ARGV[1]
+  unless ARGV[1] then
+    p "ERROR: No page specified"
+    exit
+  end
 
   page_num = ARGV[1].to_i
 
   page_num = 0 if $max_page_num == page_num
 
-  page = nil
-  begin
-    page = $sw.page_list[page_num]
-  rescue
+  page = $sw.page_list[page_num]
+
+  unless page then
     # invalid page number
     puts "ERROR: Invalid page number, or e.t.c"
     exit
@@ -74,6 +76,7 @@ def eval_ss()
 
   unless ARGV[2] then
     p "ERROR: No ss specified"
+    exit
   end
 
   ss_id = ARGV[2]
